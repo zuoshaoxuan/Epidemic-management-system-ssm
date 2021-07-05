@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 设置为ICaipDao接口方法提供sql语句配置 -->
+<mapper namespace="com.xjt.dao.IBillDao">
+    <select id="findAllBillByPager" resultType="Bill">
+        select * from bill limit #{page},#{size}
+    </select>
+    <select id="count" resultType="long">
+        select count(1) from Bill
+    </select>
+    <select id="count1" resultType="long">
+        select count(1) from Bill where sp=0
+    </select>
+    <select id="spfindAllBillByPager" resultType="Bill">
+        select * from bill where sp=0 limit #{page},#{size}
+    </select>
+    <update id="editbill" parameterType="Bill">
+        update bill set sp = 1 where id=#{id}
+    </update>
+    <update id="billsp" parameterType="int">
+        update bill set sp = 2 where id=#{id}
+    </update>
+    <insert id="insertBill" parameterType="Bill" useGeneratedKeys="true">
+        insert into bill(billno,orderuser,money,creater,createtime) value(#{billno},#{orderuser},#{money},#{creater},#{createtime})
+    </insert>
+</mapper>

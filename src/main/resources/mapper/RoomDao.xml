@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 设置为ICaipDao接口方法提供sql语句配置 -->
+<mapper namespace="com.xjt.dao.IRoomDao">
+    <select id="findroomByPager" resultType="Room">
+        select * from room limit #{page},#{size}
+    </select>
+    <select id="count" resultType="long">
+        select count(1) from room
+    </select>
+    <insert id="insertRoom" parameterType="Room" useGeneratedKeys="true">
+        insert into room(roomname,roomadd,userd) value(#{roomname},#{roomadd},#{userd})
+    </insert>
+    <update id="editroom" parameterType="Room">
+        update room set roomname = #{roomname},roomadd =#{roomadd},userd= #{userd} where id=#{id};
+    </update>
+    <delete id="deletroom" parameterType="int">
+        delete from room where id=#{id}
+    </delete>
+    <update id="updateuser" parameterType="Room">
+        update room set userd = 1 ,userid=#{userid} where id=#{id};
+    </update>
+    <update id="updateused" parameterType="int">
+        update room set userd =0 and userid='' where id=#{userid};
+    </update>
+
+    <select id="findNoneRoom" resultType="Room">
+        select * from room where userd=0
+    </select>
+</mapper>

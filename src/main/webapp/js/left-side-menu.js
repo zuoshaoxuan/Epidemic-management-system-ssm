@@ -1,0 +1,100 @@
+$(function(){
+    $('.lsm-scroll').slimscroll({
+        height: 'auto',
+        position: 'right',
+        railOpacity: 1,
+        size: "5px",
+        opacity: .4,
+        color: '#fffafa',
+        wheelStep: 5,
+        touchScrollStep: 50
+    });
+    $('.lsm-container ul ul').css("display", "none");
+    // lsm-sidebar收缩展开
+    $('.lsm-sidebar a').on('click',function(){
+        $('.lsm-scroll').slimscroll({
+            height: 'auto',
+            position: 'right',
+            size: "8px",
+            color: '#9ea5ab',
+            wheelStep: 5,
+            touchScrollStep: 50
+        });
+        if (!$('.left-side-menu').hasClass('lsm-mini')) {
+            $(this).parent("li").siblings("li.lsm-sidebar-item").children('ul').slideUp(200);
+            if ($(this).next().css('display') == "none") {
+                //展开未展开
+                // $('.lsm-sidebar-item').children('ul').slideUp(300);
+                $(this).next('ul').slideDown(200);
+                $(this).parent('li').addClass('lsm-sidebar-show').siblings('li').removeClass('lsm-sidebar-show');
+            }else{
+                //收缩已展开
+                $(this).next('ul').slideUp(200);
+                //$('.lsm-sidebar-item.lsm-sidebar-show').removeClass('lsm-sidebar-show');
+                $(this).parent('li').removeClass('lsm-sidebar-show');
+            }
+        }
+    });
+    //lsm-mini
+    $('.lsm-mini-btn svg').on('click',function(){
+        if ($('.lsm-mini-btn input[type="checkbox"]').prop("checked")) {
+            $('.lsm-sidebar-item.lsm-sidebar-show').removeClass('lsm-sidebar-show');
+            $('.lsm-container ul').removeAttr('style');
+            $('.left-side-menu').addClass('lsm-mini');
+            $('#iframe').removeAttr('class');
+            $('#iframe').removeAttr('style');
+            $('#iframe').addClass('right-min');
+            $('.left-side-menu').stop().animate({width : 60},200);
+
+        }else{
+            $('.left-side-menu').removeClass('lsm-mini');
+            $('.lsm-container ul ul').css("display", "none");
+            $('#iframe').removeClass('right-min');
+            $('#iframe').css({"width":"82.5%","position":"absolute","left":"250px","top":"60px","height":"85%","overflow-x":"hidden","border":"none"});
+            $('.left-side-menu').stop().animate({width: 230},200);
+        }
+    });
+
+    $(document).on('mouseover','.lsm-mini .lsm-container ul:first>li',function(){
+        $(".lsm-popup.third").hide();
+        $(".lsm-popup.second").length == 0 && ($(".lsm-container").append("<div class='second lsm-popup lsm-sidebar'><div></div></div>"));
+        $(".lsm-popup.second>div").html($(this).html());
+        $(".lsm-popup.second").show();
+        $(".lsm-popup.third").hide();
+        let top = $(this).offset().top;
+        let d = $(window).height() - $(".lsm-popup.second>div").height();
+        if(d - top <= 0 ){
+            top  = d >= 0 ?  d - 8 : 0;
+        }
+        $(".lsm-popup.second").stop().animate({"top":top}, 100);
+    });
+
+    $(document).on('mouseover','.second.lsm-popup.lsm-sidebar > div > ul > li',function(){
+        if(!$(this).hasClass("lsm-sidebar-item")){
+            $(".lsm-popup.third").hide();
+            return;
+        }
+        $(".lsm-popup.third").length == 0 && ($(".lsm-container").append("<div class='third lsm-popup lsm-sidebar'><div></div></div>"));
+        $(".lsm-popup.third>div").html($(this).html());
+        $(".lsm-popup.third").show();
+        var top = $(this).offset().top;
+        var d = $(window).height() - $(".lsm-popup.third").height();
+        if(d - top <= 0 ){
+            top  = d >= 0 ?  d - 8 : 0;
+        }
+        $(".lsm-popup.third").stop().animate({"top":top}, 100);
+    });
+
+    $(document).on('mouseleave','.lsm-mini .lsm-container ul:first, .lsm-mini .slimScrollBar,.second.lsm-popup ,.third.lsm-popup',function(){
+        $(".lsm-popup.second").hide();
+        $(".lsm-popup.third").hide();
+    });
+
+    $(document).on('mouseover','.lsm-mini .slimScrollBar,.second.lsm-popup',function(){
+        $(".lsm-popup.second").show();
+    });
+    $(document).on('mouseover','.third.lsm-popup',function(){
+        $(".lsm-popup.second").show();
+        $(".lsm-popup.third").show();
+    });
+});

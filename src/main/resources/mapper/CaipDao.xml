@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 设置为ICaipDao接口方法提供sql语句配置 -->
+<mapper namespace="com.xjt.dao.ICaipDao">
+    <select id="findcaipByPager" resultType="Caip">
+        select * from caip where caipy=1 limit #{page},#{size}
+    </select>
+    <select id="count" resultType="long">
+        select count(1) from caip where caipy=1
+    </select>
+    <select id="findAllCaipByPager" resultType="Caip">
+        select * from caip limit #{page},#{size}
+    </select>
+    <select id="count1" resultType="long">
+        select count(1) from caip
+    </select>
+    <insert id="insertCaip" parameterType="Caip" useGeneratedKeys="true">
+        insert into caip(cpname,cpdescribe,caipy) value(#{cpname},#{cpdescribe},#{caipy})
+    </insert>
+    <update id="editcaip" parameterType="Caip">
+        update caip set cpname = #{coname},cpdescribe =#{cpdescribe},caipy= #{caipy} where id=#{id};
+    </update>
+    <delete id="deletcaip" parameterType="int">
+        delete from caip where id=#{id}
+    </delete>
+    <select id="FuzzyQueryBycpname" resultType="Caip">
+        select * from caip where cpname like "%"#{cpname}"%" limit #{page},#{size}
+    </select>
+    <select id="count2" resultType="int">
+        select count(1) from caip where cpname like "%"#{cpname}"%"
+    </select>
+    <insert id="orderCaip" parameterType="Caiporder" useGeneratedKeys="true">
+        insert into caiporder(uid,temp,cdate) value(#{uid},#{temp},#{cdate})
+    </insert>
+    <select id="findAllorderByPager" resultType="Caiporder">
+        select * from caiporder where uid=#{uid} order by cdate desc limit #{page},#{size}
+    </select>
+    <select id="count3" resultType="int">
+        select count(1) from  caiporder where uid=#{uid}
+    </select>
+    <select id="findAllByPager" resultType="Caiporder">
+        select * from caiporder where send=0 order by cdate desc limit #{page},#{size}
+    </select>
+    <select id="count4" resultType="int">
+        select count(1) from caiporder where send=0
+    </select>
+    <update id="sended" parameterType="int">
+        update caiporder set send=1 where id=#{id};
+    </update>
+    <select id="findAllGoodsByPager" resultType="Caip">
+        select * from caip where caipy=0 limit #{page},#{size}
+    </select>
+    <select id="count5" resultType="int">
+        select count(1) from caip where caipy=0
+    </select>
+</mapper>

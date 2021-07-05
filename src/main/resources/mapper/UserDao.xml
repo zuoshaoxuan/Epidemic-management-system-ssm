@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 设置为IUserDao接口方法提供sql语句配置 -->
+<mapper namespace="com.xjt.dao.IUserDao">
+
+    <select id="selectUser" resultType="User" parameterType="long">
+        SELECT * FROM user WHERE id = #{id}
+    </select>
+    <select id="findAll" resultType="User" >
+        SELECT * FROM user
+    </select>
+    <select id="findByUserName" resultType="User">
+        select * from user where username = #{username}
+    </select>
+    <select id="findByUserid" resultType="User">
+        select * from user where id = #{id}
+    </select>
+    <update id="UpdateUser" parameterType="User">
+        update user  set username=#{username},address=#{address},sex=#{sex},birth=#{birth},phonenum=#{phonenum},email=#{email},qq=#{qq},realname=#{realname},idnum=#{idnum} where id=#{id};
+    </update>
+    <update id="Updatepassword" parameterType="User">
+        update user set password = #{password} where id=#{id};
+    </update>
+    <select id="findByPager" resultType="User">
+        select * from user limit #{page},#{size}
+    </select>
+    <select id="count" resultType="long">
+        select count(1) from user
+    </select>
+    <insert id="insertUser" parameterType="User" useGeneratedKeys="true">
+        insert into user(username,password,birth,userclass ) value(#{username},#{password},#{birth},'G')
+    </insert>
+    <delete id="delet" parameterType="int">
+        delete from user where id=#{id}
+    </delete>
+    <update id="UpdateUser2" parameterType="user">
+        update user  set username=#{username},address=#{address},sex=#{sex},birth=#{birth},phonenum=#{phonenum},email=#{email},qq=#{qq},realname=#{realname},idnum=#{idnum} where id=#{id};
+    </update>
+    <select id="duty" parameterType="int" resultType="User">
+        select * from user where id in(select userid from duty where aduserid =#{id})
+    </select>
+    <delete id="dutydelet" parameterType="int">
+        delete from duty where userid=#{id}
+    </delete>
+    <select id="FuzzyQueryByUsername" resultType="User">
+        select * from user where username like "%"#{username}"%" limit #{page},#{size}
+    </select>
+    <select id="count2" resultType="long">
+        select count(1) from user where username like "%"#{username}"%"
+    </select>
+    <select id="findGLByPager" resultType="User">
+        select * from user where userclass!='G' limit #{page},#{size}
+    </select>
+    <select id="count3" resultType="long">
+        select count(1) from user where userclass='A' or userclass='L'
+    </select>
+
+    <update id="editrole" parameterType="user">
+        update user  set userclass=#{userclass} where id=#{id};
+    </update>
+
+    <insert id="addUser" parameterType="User" useGeneratedKeys="true">
+        insert into user(username,password,birth,userclass ) value(#{username},#{password},#{birth},#{userclass})
+    </insert>
+
+    <update id="edituser" parameterType="User">
+        update user  set username=#{username},password = #{password},birth=#{birth},sex=#{sex} where id=#{id};
+    </update>
+    <select id="findGByPager" resultType="User">
+        select * from user where userclass='A' limit #{page},#{size}
+    </select>
+    <select id="count4" resultType="long">
+        select count(1) from user where userclass='A'
+    </select>
+    <select id="FQGByname" resultType="User">
+        select * from user where username like "%"#{username}"%" and userclass='A' limit #{page},#{size}
+    </select>
+    <select id="count5" resultType="long">
+        select count(1) from user where username like "%"#{username}"%" and userclass='A'
+    </select>
+    <select id="FQGLByname" resultType="User">
+        select * from user where username like "%"#{username}"%" and userclass!='G' limit #{page},#{size}
+    </select>
+    <select id="count6" resultType="long">
+        select count(1) from user where username like "%"#{username}"%" and userclass!='G'
+    </select>
+    <select id="findNOTByPager" resultType="User">
+        select * from user where tl=0 and userclass='G' limit #{page},#{size}
+    </select>
+    <select id="count7" resultType="long">
+        select count(1) from user where tl=0 and userclass='G'
+    </select>
+    <select id="selsctByUsername" parameterType="String" resultType="int">
+        select id from user where username=#{username} and userclass='G'
+    </select>
+    <update id="removeroom" parameterType="int">
+        update user set cadd='',tl=1  where id=#{id}
+    </update>
+    <update id="updateroomname" parameterType="User">
+        update user set cadd=#{cadd}  where id=#{id}
+    </update>
+</mapper>

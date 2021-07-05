@@ -1,0 +1,55 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #000;
+}
+
+.light-btn {
+  text-decoration: none;
+  position: absolute;
+  left: 50%;
+  top:50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
+  background-size: 400%;
+  width: 400px;
+  height: 100px;
+  line-height:100px;
+  color: #fff;
+  text-align: center;
+  text-transform: uppercase;
+  border-radius: 50px;
+  z-index: 1;
+  border: none;
+}
+
+.light-btn:hover::before,
+.light-btn:hover {
+  animation: sun 8s infinite;
+  border: none;
+}
+
+.light-btn::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  right: -5px;
+  top: -5px;
+  bottom: -5px;
+  background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
+  background-size: 400%;
+  border-radius: 50px;
+  filter: blur(10px);
+  z-index: -1;
+  border: none;
+}
+
+@keyframes sun {
+  100%{
+    background-position: -400% 0;
+  }
+}

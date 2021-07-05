@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 设置为ICaipDao接口方法提供sql语句配置 -->
+<mapper namespace="com.xjt.dao.IAbnormalDao">
+    <insert id="insertab" parameterType="Abnormal" useGeneratedKeys="true">
+        insert into abnormal(username,time,symptom0,symptom1,symptom2,symptom3,symptom4,symptom5,reporter,reportertime) value(#{username},#{time},#{symptom0},#{symptom1},#{symptom2},#{symptom3},#{symptom4},#{symptom5},#{reporter},#{reportertime})
+    </insert>
+    <select id="findabByPager" resultType="Abnormal">
+        select * from abnormal where sp=0 limit #{page},#{size}
+    </select>
+    <select id="count" resultType="long">
+        select count(1) from abnormal where sp=0
+    </select>
+    <update id="abnormalsp" parameterType="int">
+        update abnormal set sp=1 where id=#{id}
+    </update>
+    <update id="abnormalno" parameterType="int">
+        update abnormal set sp=2 where id=#{id}
+    </update>
+    <select id="findab" resultType="Abnormal">
+        select * from abnormal
+    </select>
+    <select id="count1" resultType="long">
+        select count(1) from abnormal
+    </select>
+
+</mapper>
